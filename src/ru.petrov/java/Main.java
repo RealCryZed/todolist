@@ -8,14 +8,14 @@ import javafx.stage.StageStyle;
 public class Main extends Application {
 
     private MovableApplication movableApplication;
-    private SignInController signInController;
+    private MainPageController mainPageController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         movableApplication = new MovableApplication();
 
-        Parent root = FXMLLoader.load((getClass().getResource("main.fxml")));
+        Parent root = FXMLLoader.load((getClass().getResource("fxml/main.fxml")));
         Scene scene = new Scene(root);
 
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -31,3 +31,4 @@ public class Main extends Application {
 
         launch();
     }
+}
