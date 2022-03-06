@@ -9,6 +9,12 @@
 *.nar
 hs_err_pid*
 
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
 ##############################
 ## Maven
 ##############################
@@ -38,6 +44,8 @@ gradle-app.setting
 ## IntelliJ
 ##############################
 out/
+*/.idea/workspace.xml
+*/.idea/tasks.xml
 .idea/
 .idea_modules/
 *.iml

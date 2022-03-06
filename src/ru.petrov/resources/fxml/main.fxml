@@ -67,6 +67,6 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <DatePicker fx:id="calendar" layoutX="513.0" layoutY="115.0" />
+      <DatePicker fx:id="calendar" layoutX="513.0" layoutY="115.0" onAction="#calendarAction" />
    </children>
 </AnchorPane>

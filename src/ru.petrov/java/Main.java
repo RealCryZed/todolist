@@ -2,8 +2,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class Main extends Application {
 
@@ -14,6 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         movableApplication = new MovableApplication();
+        mainPageController = new MainPageController();
 
         Parent root = FXMLLoader.load((getClass().getResource("fxml/main.fxml")));
         Scene scene = new Scene(root);

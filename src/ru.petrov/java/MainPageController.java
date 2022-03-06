@@ -7,6 +7,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class MainPageController extends MovableApplication {
@@ -30,7 +31,12 @@ public class MainPageController extends MovableApplication {
     private TextArea taskText;
 
     @FXML
-    private DatePicker calendar;
+    protected DatePicker calendar;
+
+    @FXML
+    public void initialize() {
+        calendar.setValue(LocalDate.now());
+    }
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
@@ -38,5 +44,8 @@ public class MainPageController extends MovableApplication {
         stage.close();
     }
 
+    @FXML
+    public void calendarAction(ActionEvent event) {
 
+    }
 }
