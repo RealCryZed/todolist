@@ -12,14 +12,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPageController">
+<AnchorPane fx:id="mainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPageController">
    <children>
       <Text layoutX="508.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO-DO List" textAlignment="CENTER">
          <font>
             <Font name="Franklin Gothic Demi Cond" size="47.0" />
          </font>
       </Text>
-      <Button layoutX="530.0" layoutY="717.0" mnemonicParsing="false" text="Add new task">
+      <Button fx:id="newTaskBtn" layoutX="530.0" layoutY="717.0" mnemonicParsing="false" onAction="#addNewTask" text="Add new task">
          <font>
             <Font size="19.0" />
          </font>
@@ -45,7 +45,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="651.0">
                <children>
-                  <SplitPane dividerPositions="0.18823529411764706" layoutX="2.0" orientation="VERTICAL" prefHeight="512.0" prefWidth="651.0">
+                  <SplitPane fx:id="taskPane" dividerPositions="0.18823529411764706" layoutX="2.0" orientation="VERTICAL" prefHeight="512.0" prefWidth="651.0" visible="false">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="48.0" prefWidth="649.0">
                            <children>
@@ -59,7 +59,7 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <TextArea fx:id="taskText" layoutX="36.0" layoutY="13.0" prefHeight="385.0" prefWidth="578.0" />
+                              <TextArea fx:id="taskText" editable="false" layoutX="36.0" layoutY="13.0" prefHeight="385.0" prefWidth="578.0" />
                            </children>
                         </AnchorPane>
                     </items>
@@ -69,7 +69,7 @@
         </items>
       </SplitPane>
       <DatePicker fx:id="calendar" layoutX="513.0" layoutY="115.0" onAction="#calendarAction" />
-      <Label fx:id="clock" layoutX="1008.0" layoutY="140.0" prefHeight="25.0" prefWidth="66.0" textAlignment="RIGHT">
+      <Label fx:id="clock" layoutX="1008.0" layoutY="140.0" prefHeight="25.0" prefWidth="66.0" text="00:00:00" textAlignment="RIGHT">
          <font>
             <Font size="16.0" />
          </font>

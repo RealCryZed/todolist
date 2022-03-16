@@ -15,13 +15,11 @@ import java.util.Calendar;
 public class Main extends Application {
 
     private MovableApplication movableApplication;
-    private MainPageController mainPageController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         movableApplication = new MovableApplication();
-        mainPageController = new MainPageController();
 
         Parent root = FXMLLoader.load((getClass().getResource("fxml/main.fxml")));
         Scene scene = new Scene(root);

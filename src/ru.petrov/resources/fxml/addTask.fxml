@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="addTaskScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddTaskController">
+   <children>
+      <Text layoutX="508.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO-DO List" textAlignment="CENTER">
+         <font>
+            <Font name="Franklin Gothic Demi Cond" size="47.0" />
+         </font>
+      </Text>
+      <Button fx:id="closeButton" cancelButton="true" layoutX="1156.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="30.0" prefWidth="30.0" text="Х">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <SplitPane layoutX="127.0" layoutY="170.0" prefHeight="514.0" prefWidth="947.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: black;">
+               <children>
+                  <TextField fx:id="taskNameField" layoutX="147.0" layoutY="36.0" prefHeight="25.0" prefWidth="652.0" promptText="Название задачи" />
+                  <TextArea fx:id="taskText" layoutX="147.0" layoutY="86.0" prefHeight="200.0" prefWidth="652.0" promptText="Текст задачи" />
+                  <DatePicker fx:id="calendar" layoutX="386.0" layoutY="312.0" onAction="#calendarAction" />
+                  <TextField fx:id="hours" alignment="TOP_CENTER" layoutX="428.0" layoutY="376.0" prefHeight="25.0" prefWidth="37.0" promptText="ЧЧ" />
+                  <TextField fx:id="minutes" alignment="TOP_CENTER" layoutX="484.0" layoutY="376.0" prefHeight="25.0" prefWidth="37.0" promptText="ММ" />
+                  <Text layoutX="472.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="newTaskButton" layoutX="405.0" layoutY="426.0" mnemonicParsing="false" onAction="#addNewTask" text="Add new task">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="backButton" layoutX="147.0" layoutY="443.0" mnemonicParsing="false" onAction="#returnBack" prefHeight="25.0" prefWidth="98.0" text="На главную" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+      <Label fx:id="clock" layoutX="1008.0" layoutY="140.0" prefHeight="25.0" prefWidth="66.0" text="00:00:00" textAlignment="RIGHT">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
