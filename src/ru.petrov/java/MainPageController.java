@@ -2,6 +2,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -10,19 +12,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.time.LocalTime;
+import java.util.*;
 
 public class MainPageController extends MovableApplication {
 
@@ -37,6 +45,12 @@ public class MainPageController extends MovableApplication {
 
     @FXML
     private SplitPane taskPane;
+
+    @FXML
+    private TableView<Task> taskTable;
+
+    @FXML
+    private TableColumn<Task, String> tableColumn;
 
     @FXML
     private Text taskDate;
@@ -57,6 +71,9 @@ public class MainPageController extends MovableApplication {
     public void initialize() {
         calendar.setValue(LocalDate.now());
         Functions.startClock(clock);
+
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
+        taskTable.setItems(getTasks(LocalDate.now()));
     }
 
     @FXML
@@ -81,5 +98,19 @@ public class MainPageController extends MovableApplication {
         window.setScene(addTaskScene);
         makeWindowMovable(addTaskPage, window);
         window.show();
+    }
+
+    private ObservableList<Task> getTasks(LocalDate date) {
+        SessionFactory sf =  new Configuration().configure().buildSessionFactory();
+        Session session = sf.openSession();
+
+        List<Task> tempList = session.createQuery("SELECT a FROM Task a where a.date = date", Task.class).getResultList();
+        ObservableList<Task> observableList = FXCollections.observableArrayList();
+
+        for (Task task : tempList) {
+            observableList.add(new Task(task.getTaskName()));
+        }
+
+        return observableList;
     }
 }

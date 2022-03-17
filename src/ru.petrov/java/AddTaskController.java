@@ -61,23 +61,23 @@ public class AddTaskController extends MovableApplication {
 
         if((Integer.parseInt(hours.getText()) & Integer.parseInt(minutes.getText())) >= 0 && Integer.parseInt(hours.getText()) < 24
         && Integer.parseInt(minutes.getText()) < 60) {
-            if(taskNameField.getText() == null) {
+            Task task = new Task();
 
-                Task task = new Task();
+            if (taskNameField.getText().equals("")) {
+                task.setTaskName("Без названия");
+            } else task.setTaskName(taskNameField.getText());
 
-                task.setTaskName(taskNameField.getText());
-                task.setTaskText(taskTextArea.getText());
-                task.setDate(taskDate.getValue());
+            task.setTaskText(taskTextArea.getText());
+            task.setDate(taskDate.getValue());
+            task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
 
-                task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
+            System.err.println(task.getDate());
+            session.beginTransaction();
+            session.save(task);
+            session.getTransaction().commit();
+            session.close();
 
-                session.beginTransaction();
-                session.save(task);
-                session.getTransaction().commit();
-                session.close();
-
-                returnToMain();
-            } else infoBox("Пожалуйста, введите название задачи!", null, "Failed");
+            returnToMain();
         } else infoBox("Пожалуйста, введите корректные данные времени!", null, "Failed");
     }
 

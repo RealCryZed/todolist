@@ -25,4 +25,11 @@ public class Task {
 
     @Column (name = "time")
     private Time time;
+
+    public Task() {
+    }
+
+    public Task(String taskName) {
+        this.taskName = taskName;
+    }
 }
