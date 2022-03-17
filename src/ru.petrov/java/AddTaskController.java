@@ -10,9 +10,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AddTaskController extends MovableApplication {
 
@@ -26,10 +31,10 @@ public class AddTaskController extends MovableApplication {
     private TextField taskNameField;
 
     @FXML
-    private TextArea taskText;
+    private TextArea taskTextArea;
 
     @FXML
-    private DatePicker calendar;
+    private DatePicker taskDate;
 
     @FXML
     private TextField hours;
@@ -48,13 +53,27 @@ public class AddTaskController extends MovableApplication {
 
     @FXML
     public void initialize() {
-        calendar.setValue(LocalDate.now());
+        taskDate.setValue(LocalDate.now());
         Functions.startClock(clock);
     }
 
     @FXML
     public void addNewTask(ActionEvent event) {
+        SessionFactory sf =  new Configuration().configure().buildSessionFactory();
+        Session session = sf.openSession();
 
+        Task task = new Task();
+
+        task.setTaskName(taskNameField.getText());
+        task.setTaskText(taskTextArea.getText());
+        task.setDate(taskDate.getValue());
+
+        task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
+
+        session.beginTransaction();
+        session.save(task);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @FXML

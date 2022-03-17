@@ -27,8 +27,8 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: black;">
                <children>
                   <TextField fx:id="taskNameField" layoutX="147.0" layoutY="36.0" prefHeight="25.0" prefWidth="652.0" promptText="Название задачи" />
-                  <TextArea fx:id="taskText" layoutX="147.0" layoutY="86.0" prefHeight="200.0" prefWidth="652.0" promptText="Текст задачи" />
-                  <DatePicker fx:id="calendar" layoutX="386.0" layoutY="312.0" onAction="#calendarAction" />
+                  <TextArea fx:id="taskTextArea" layoutX="147.0" layoutY="86.0" prefHeight="200.0" prefWidth="652.0" promptText="Текст задачи" />
+                  <DatePicker fx:id="taskDate" layoutX="386.0" layoutY="312.0" onAction="#calendarAction" />
                   <TextField fx:id="hours" alignment="TOP_CENTER" layoutX="428.0" layoutY="376.0" prefHeight="25.0" prefWidth="37.0" promptText="ЧЧ" />
                   <TextField fx:id="minutes" alignment="TOP_CENTER" layoutX="484.0" layoutY="376.0" prefHeight="25.0" prefWidth="37.0" promptText="ММ" />
                   <Text layoutX="472.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
@@ -41,7 +41,7 @@
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Button>
-                  <Button fx:id="backButton" layoutX="147.0" layoutY="443.0" mnemonicParsing="false" onAction="#returnBack" prefHeight="25.0" prefWidth="98.0" text="На главную" />
+                  <Button fx:id="backButton" layoutX="147.0" layoutY="443.0" mnemonicParsing="false" onAction="#returnBack" prefHeight="25.0" prefWidth="98.0" style="-fx-background-color: #bababa;" text="На главную" />
                </children>
             </AnchorPane>
          </items>
