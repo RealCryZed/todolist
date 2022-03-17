@@ -58,7 +58,7 @@ public class AddTaskController extends MovableApplication {
     }
 
     @FXML
-    public void addNewTask(ActionEvent event) {
+    public void addNewTask(ActionEvent event) throws IOException {
         SessionFactory sf =  new Configuration().configure().buildSessionFactory();
         Session session = sf.openSession();
 
@@ -74,6 +74,8 @@ public class AddTaskController extends MovableApplication {
         session.save(task);
         session.getTransaction().commit();
         session.close();
+
+        returnToMain();
     }
 
     @FXML
@@ -89,6 +91,10 @@ public class AddTaskController extends MovableApplication {
 
     @FXML
     public void returnBack(ActionEvent event) throws IOException {
+        returnToMain();
+    }
+
+    private void returnToMain() throws IOException {
         Parent addTaskPage = FXMLLoader.load(getClass().getResource("fxml/main.fxml"));
         Scene addTaskScene = new Scene(addTaskPage);
 
