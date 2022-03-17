@@ -3,11 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.hibernate.Session;
@@ -18,6 +14,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 public class AddTaskController extends MovableApplication {
 
@@ -62,20 +59,26 @@ public class AddTaskController extends MovableApplication {
         SessionFactory sf =  new Configuration().configure().buildSessionFactory();
         Session session = sf.openSession();
 
-        Task task = new Task();
+        if((Integer.parseInt(hours.getText()) & Integer.parseInt(minutes.getText())) >= 0 && Integer.parseInt(hours.getText()) < 24
+        && Integer.parseInt(minutes.getText()) < 60) {
+            if(taskNameField.getText() == null) {
 
-        task.setTaskName(taskNameField.getText());
-        task.setTaskText(taskTextArea.getText());
-        task.setDate(taskDate.getValue());
+                Task task = new Task();
 
-        task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
+                task.setTaskName(taskNameField.getText());
+                task.setTaskText(taskTextArea.getText());
+                task.setDate(taskDate.getValue());
 
-        session.beginTransaction();
-        session.save(task);
-        session.getTransaction().commit();
-        session.close();
+                task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
 
-        returnToMain();
+                session.beginTransaction();
+                session.save(task);
+                session.getTransaction().commit();
+                session.close();
+
+                returnToMain();
+            } else infoBox("Пожалуйста, введите название задачи!", null, "Failed");
+        } else infoBox("Пожалуйста, введите корректные данные времени!", null, "Failed");
     }
 
     @FXML
@@ -103,5 +106,13 @@ public class AddTaskController extends MovableApplication {
         window.setScene(addTaskScene);
         makeWindowMovable(addTaskPage, window);
         window.show();
+    }
+
+    private static void infoBox(String infoMessage, String headerText, String title){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText(infoMessage);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
     }
 }
