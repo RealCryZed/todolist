@@ -32,6 +32,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MainPageController extends MovableApplication {
@@ -85,7 +86,6 @@ public class MainPageController extends MovableApplication {
 
     @FXML
     public void calendarAction(ActionEvent event) {
-        System.out.println(calendar.getValue());
         loadTable(calendar.getValue());
     }
 
@@ -101,6 +101,15 @@ public class MainPageController extends MovableApplication {
         window.show();
     }
 
+    @FXML
+    void selectTask(MouseEvent event) {
+        taskPane.setVisible(true);
+        taskName.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskName());
+        taskText.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText());
+        taskDate.setText(taskTable.getSelectionModel().selectedItemProperty().get().getDate().format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) + ", "
+                + taskTable.getSelectionModel().selectedItemProperty().get().getTime());
+    }
+
     private ObservableList<Task> loadTable(LocalDate date) {
         SessionFactory sf =  new Configuration().configure().buildSessionFactory();
         Session session = sf.openSession();
@@ -111,9 +120,8 @@ public class MainPageController extends MovableApplication {
         ObservableList<Task> observableList = FXCollections.observableArrayList();
 
         for (Task task : tempList) {
-            observableList.add(new Task(task.getTaskName()));
+            observableList.add(new Task(task.getTaskName(), task.getTaskText(), task.getDate(), task.getTime()));
         }
-        System.err.println(observableList);
         taskTable.setItems(observableList);
         return observableList;
     }

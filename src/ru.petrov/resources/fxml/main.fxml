@@ -34,7 +34,7 @@
                <children>
                   <ScrollPane prefHeight="512.0" prefWidth="288.0">
                      <content>
-                        <TableView fx:id="taskTable" prefHeight="510.0" prefWidth="286.0">
+                        <TableView fx:id="taskTable" onMouseClicked="#selectTask" prefHeight="510.0" prefWidth="286.0">
                           <columns>
                             <TableColumn fx:id="tableColumn" prefWidth="286.0" text="Ваши задачи" />
                           </columns>

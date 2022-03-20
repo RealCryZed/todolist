@@ -29,6 +29,13 @@ public class Task {
     public Task() {
     }
 
+    public Task(String taskName, String taskText, LocalDate date, Time time) {
+        this.taskName = taskName;
+        this.taskText = taskText;
+        this.date = date;
+        this.time = time;
+    }
+
     public Task(String taskName) {
         this.taskName = taskName;
     }
