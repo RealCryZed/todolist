@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import javax.validation.constraints.Null;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Time;
@@ -72,8 +74,7 @@ public class MainPageController extends MovableApplication {
         calendar.setValue(LocalDate.now());
         Functions.startClock(clock);
 
-        tableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
-        taskTable.setItems(getTasks(LocalDate.now()));
+        loadTable(LocalDate.now());
     }
 
     @FXML
@@ -84,12 +85,12 @@ public class MainPageController extends MovableApplication {
 
     @FXML
     public void calendarAction(ActionEvent event) {
-
+        System.out.println(calendar.getValue());
+        loadTable(calendar.getValue());
     }
 
     @FXML
     void addNewTask(ActionEvent event) throws IOException {
-
         Parent addTaskPage = FXMLLoader.load(getClass().getResource("fxml/addTask.fxml"));
         Scene addTaskScene = new Scene(addTaskPage);
 
@@ -100,17 +101,20 @@ public class MainPageController extends MovableApplication {
         window.show();
     }
 
-    private ObservableList<Task> getTasks(LocalDate date) {
+    private ObservableList<Task> loadTable(LocalDate date) {
         SessionFactory sf =  new Configuration().configure().buildSessionFactory();
         Session session = sf.openSession();
+        tableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
+        String string_date = date.toString() + " +06";
+        List<Task> tempList = session.createQuery("SELECT a FROM Task a where a.date = :string_date", Task.class).setString("string_date", string_date).getResultList();
 
-        List<Task> tempList = session.createQuery("SELECT a FROM Task a where a.date = date", Task.class).getResultList();
         ObservableList<Task> observableList = FXCollections.observableArrayList();
 
         for (Task task : tempList) {
             observableList.add(new Task(task.getTaskName()));
         }
-
+        System.err.println(observableList);
+        taskTable.setItems(observableList);
         return observableList;
     }
 }
