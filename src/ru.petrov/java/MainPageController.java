@@ -32,22 +32,19 @@ public class MainPageController extends MovableApplication {
     private Button closeButton;
 
     @FXML
-    private SplitPane splitPane;
+    private AnchorPane backgroundPane;
 
     @FXML
-    private SplitPane taskPane;
-
-    @FXML
-    private TableView<Task> taskTable;
-
-    @FXML
-    private TableColumn<Task, String> tableColumn;
+    private AnchorPane taskPane;
 
     @FXML
     private Text taskDate;
 
     @FXML
     private Text taskName;
+
+    @FXML
+    private Button editTaskBtn;
 
     @FXML
     private TextArea taskText;
@@ -59,7 +56,14 @@ public class MainPageController extends MovableApplication {
     private Label clock;
 
     @FXML
+    private TableView<Task> taskTable;
+
+    @FXML
+    private TableColumn<Task, String> tableColumn;
+
+    @FXML
     public void initialize() {
+        taskPane.setVisible(false);
         calendar.setValue(LocalDate.now());
         Functions.startClock(clock);
         loadTable(LocalDate.now());
@@ -99,8 +103,14 @@ public class MainPageController extends MovableApplication {
                         + taskTable.getSelectionModel().selectedItemProperty().get().getTime());
             }
         } catch (NullPointerException e) {
+            taskPane.setVisible(false);
             System.err.println("Trying to select row with no value in it");
         }
+    }
+
+    @FXML
+    void editTask(ActionEvent event) {
+
     }
 
     private ObservableList<Task> loadTable(LocalDate date) {

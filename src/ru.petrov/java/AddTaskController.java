@@ -70,7 +70,6 @@ public class AddTaskController extends MovableApplication {
             task.setDate(taskDate.getValue());
             task.setTime(Time.valueOf(LocalTime.of(Integer.parseInt(hours.getText()), Integer.parseInt(minutes.getText()), 0)));
 
-            System.err.println(task.getDate());
             session.beginTransaction();
             session.save(task);
             session.getTransaction().commit();
