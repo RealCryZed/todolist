@@ -126,6 +126,21 @@ public class MainPageController extends MovableApplication {
         }
     }
 
+    @FXML
+    void deleteTask(ActionEvent event) {
+        SessionFactory sessionFactory = SessionFactoryConfiguration.getSessionFactory();
+        Session session = sessionFactory.openSession();
+
+        Task task = taskTable.getSelectionModel().selectedItemProperty().get();
+
+        session.beginTransaction();
+        session.delete(task);
+        session.getTransaction().commit();
+        session.close();
+        loadTable(calendar.getValue());
+        taskPane.setVisible(false);
+    }
+
     private ObservableList<Task> loadTable(LocalDate date) {
         SessionFactory sf = SessionFactoryConfiguration.getSessionFactory();
         Session session = sf.openSession();

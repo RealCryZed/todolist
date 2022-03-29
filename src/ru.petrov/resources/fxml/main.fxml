@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="mainScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPageController">
    <children>
-      <Text layoutX="508.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO-DO List" textAlignment="CENTER">
+      <Text layoutX="141.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO-DO List" textAlignment="CENTER">
          <font>
             <Font name="Franklin Gothic Demi Cond" size="47.0" />
          </font>
@@ -42,20 +42,25 @@
                   </AnchorPane>
                   <AnchorPane layoutY="93.0" prefHeight="419.0" prefWidth="649.0">
                      <children>
-                        <Button fx:id="editTaskBtn" layoutX="274.0" layoutY="363.0" mnemonicParsing="false" onAction="#editTask" text="Edit Task">
+                        <Button fx:id="editTaskBtn" layoutX="272.0" layoutY="363.0" mnemonicParsing="false" onAction="#editTask" text="Edit Task">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Button>
                         <TextArea fx:id="taskText" layoutX="36.0" prefHeight="343.0" prefWidth="578.0" />
+                        <Button fx:id="deleteTaskBtn" layoutX="548.0" layoutY="363.0" mnemonicParsing="false" onAction="#deleteTask" prefHeight="42.0" prefWidth="66.0" style="-fx-background-color: #A52A2A;" text="Delete" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <DatePicker fx:id="calendar" layoutX="513.0" layoutY="115.0" onAction="#calendarAction" />
-      <Label fx:id="clock" layoutX="1008.0" layoutY="140.0" prefHeight="25.0" prefWidth="66.0" text="00:00:00" textAlignment="RIGHT">
+      <DatePicker fx:id="calendar" layoutX="141.0" layoutY="103.0" onAction="#calendarAction" />
+      <Label fx:id="clock" layoutX="141.0" layoutY="140.0" prefHeight="25.0" prefWidth="66.0" text="00:00:00" textAlignment="RIGHT">
          <font>
             <Font size="16.0" />
          </font>
