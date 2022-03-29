@@ -61,6 +61,8 @@ public class MainPageController extends MovableApplication {
     @FXML
     private TableColumn<Task, String> tableColumn;
 
+    ObservableList<Task> currentDayTasks;
+
     @FXML
     public void initialize() {
         taskPane.setVisible(false);
@@ -110,7 +112,18 @@ public class MainPageController extends MovableApplication {
 
     @FXML
     void editTask(ActionEvent event) {
+        if (!(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText().equals(taskText.getText()))) {
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            Session session = sessionFactory.openSession();
 
+            Task task = taskTable.getSelectionModel().selectedItemProperty().get();
+            task.setTaskText(taskText.getText());
+
+            session.beginTransaction();
+            session.update(task);
+            session.getTransaction().commit();
+            session.close();
+        }
     }
 
     private ObservableList<Task> loadTable(LocalDate date) {
@@ -123,8 +136,9 @@ public class MainPageController extends MovableApplication {
         ObservableList<Task> observableList = FXCollections.observableArrayList();
 
         for (Task task : tempList) {
-            observableList.add(new Task(task.getTaskName(), task.getTaskText(), task.getDate(), task.getTime()));
+            observableList.add(new Task(task.getId(), task.getTaskName(), task.getTaskText(), task.getDate(), task.getTime()));
         }
+        currentDayTasks = observableList;
         taskTable.setItems(observableList);
         return observableList;
     }
