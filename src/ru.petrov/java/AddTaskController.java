@@ -58,7 +58,7 @@ public class AddTaskController extends MovableApplication {
         SessionFactory sf =  SessionFactoryConfiguration.getSessionFactory();
         Session session = sf.openSession();
 
-        if((Integer.parseInt(hours.getText()) & Integer.parseInt(minutes.getText())) >= 0 && Integer.parseInt(hours.getText()) < 24
+        if(!(hours.getText().isEmpty() | minutes.getText().isEmpty()) && (Integer.parseInt(hours.getText()) & Integer.parseInt(minutes.getText())) >= 0 && Integer.parseInt(hours.getText()) < 24
         && Integer.parseInt(minutes.getText()) < 60) {
             Task task = new Task();
 
