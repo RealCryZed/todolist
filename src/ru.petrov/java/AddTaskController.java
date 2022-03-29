@@ -55,7 +55,7 @@ public class AddTaskController extends MovableApplication {
 
     @FXML
     public void addNewTask(ActionEvent event) throws IOException {
-        SessionFactory sf =  new Configuration().configure().buildSessionFactory();
+        SessionFactory sf =  SessionFactoryConfiguration.getSessionFactory();
         Session session = sf.openSession();
 
         if((Integer.parseInt(hours.getText()) & Integer.parseInt(minutes.getText())) >= 0 && Integer.parseInt(hours.getText()) < 24

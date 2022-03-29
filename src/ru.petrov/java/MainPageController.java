@@ -113,7 +113,7 @@ public class MainPageController extends MovableApplication {
     @FXML
     void editTask(ActionEvent event) {
         if (!(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText().equals(taskText.getText()))) {
-            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            SessionFactory sessionFactory = SessionFactoryConfiguration.getSessionFactory();
             Session session = sessionFactory.openSession();
 
             Task task = taskTable.getSelectionModel().selectedItemProperty().get();
@@ -127,7 +127,7 @@ public class MainPageController extends MovableApplication {
     }
 
     private ObservableList<Task> loadTable(LocalDate date) {
-        SessionFactory sf =  new Configuration().configure().buildSessionFactory();
+        SessionFactory sf = SessionFactoryConfiguration.getSessionFactory();
         Session session = sf.openSession();
         tableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
         String string_date = date.toString() + " +06";
