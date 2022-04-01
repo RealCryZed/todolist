@@ -191,6 +191,7 @@ public class MainPageController extends MovableApplication {
         List<Task> tempList = session.createQuery("FROM Task", Task.class).getResultList();
 
         hurryObservableList.clear();
+        allTasks.clear();
 
         for (Task task : tempList) {
             allTasks.put(task.getTime().toString().substring(0, 5), task);
@@ -199,6 +200,7 @@ public class MainPageController extends MovableApplication {
         for (Map.Entry<String, Task> task : allTasks.entrySet()) {
             String tempString = task.getValue().getDate() + " " + task.getKey();
             if (LocalDateTime.now().isAfter(LocalDateTime.parse(tempString, hurryTableDTF))) {
+                System.err.println("TASK ADDED");
                 hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
             }
         }
@@ -216,6 +218,7 @@ public class MainPageController extends MovableApplication {
 
                 for (Map.Entry<String, Task> task : currentDayMapTask.entrySet()) {
                     if (str.equals(task.getKey())) {
+                        System.err.println(task.getValue().getTaskName());
                         hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
                         hurryTaskTable.setItems(hurryObservableList);
                     }
