@@ -67,7 +67,12 @@
       </Label>
       <TableView fx:id="taskTable" layoutX="141.0" layoutY="165.0" maxWidth="286.0" minWidth="286.0" onMouseClicked="#selectTask" prefHeight="512.0" prefWidth="286.0" style="-fx-border-color: black;">
         <columns>
-          <TableColumn fx:id="tableColumn" prefWidth="286.0" text="Ваши задачи" />
+          <TableColumn fx:id="tableColumn" prefWidth="282.0" text="Ваши задачи" />
+        </columns>
+      </TableView>
+      <TableView fx:id="hurryTaskTable" layoutX="649.0" layoutY="23.0" prefHeight="118.0" prefWidth="202.0">
+        <columns>
+          <TableColumn fx:id="hurryTableColumn" prefWidth="199.0" text="Срочные задачи" />
         </columns>
       </TableView>
    </children>

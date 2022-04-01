@@ -13,10 +13,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -61,7 +63,22 @@ public class MainPageController extends MovableApplication {
     @FXML
     private TableColumn<Task, String> tableColumn;
 
+    @FXML
+    private TableView<Task> hurryTaskTable;
+
+    @FXML
+    private TableColumn<Task, String> hurryTableColumn;
+
+    Timer timer = new Timer();
+
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter hurryTableDTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     ObservableList<Task> currentDayTasks;
+    ObservableList<Task> hurryObservableList = FXCollections.observableArrayList();
+
+    Map<String, Task> currentDayMapTask = new HashMap<>();
+    Map<String, Task> allTasks = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -69,12 +86,15 @@ public class MainPageController extends MovableApplication {
         calendar.setValue(LocalDate.now());
         Functions.startClock(clock);
         loadTable(LocalDate.now());
+        loadHurryTable();
+        checkTime();
     }
 
     @FXML
     public void handleCloseButtonAction(ActionEvent event) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 
     @FXML
@@ -138,6 +158,7 @@ public class MainPageController extends MovableApplication {
         session.getTransaction().commit();
         session.close();
         loadTable(calendar.getValue());
+        loadHurryTable();
         taskPane.setVisible(false);
     }
 
@@ -155,6 +176,51 @@ public class MainPageController extends MovableApplication {
         }
         currentDayTasks = observableList;
         taskTable.setItems(observableList);
+
+        for (Task task : currentDayTasks) {
+            currentDayMapTask.put(task.getTime().toString().substring(0, 5), task);
+        }
+
         return observableList;
+    }
+
+    private ObservableList<Task> loadHurryTable() {
+        SessionFactory sf = SessionFactoryConfiguration.getSessionFactory();
+        Session session = sf.openSession();
+        hurryTableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
+        List<Task> tempList = session.createQuery("FROM Task", Task.class).getResultList();
+
+        hurryObservableList.clear();
+
+        for (Task task : tempList) {
+            allTasks.put(task.getTime().toString().substring(0, 5), task);
+        }
+
+        for (Map.Entry<String, Task> task : allTasks.entrySet()) {
+            String tempString = task.getValue().getDate() + " " + task.getKey();
+            if (LocalDateTime.now().isAfter(LocalDateTime.parse(tempString, hurryTableDTF))) {
+                hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
+            }
+        }
+        hurryTaskTable.setItems(hurryObservableList);
+        return hurryObservableList;
+    }
+
+    private void checkTime() {
+        hurryTableColumn.setCellValueFactory(new PropertyValueFactory<>("taskName"));
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String str = dateTimeFormatter.format(LocalDateTime.now());
+
+                for (Map.Entry<String, Task> task : currentDayMapTask.entrySet()) {
+                    if (str.equals(task.getKey())) {
+                        hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
+                        hurryTaskTable.setItems(hurryObservableList);
+                    }
+                }
+            }
+        }, 0, 60000);
     }
 }
