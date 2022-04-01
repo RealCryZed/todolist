@@ -200,7 +200,6 @@ public class MainPageController extends MovableApplication {
         for (Map.Entry<String, Task> task : allTasks.entrySet()) {
             String tempString = task.getValue().getDate() + " " + task.getKey();
             if (LocalDateTime.now().isAfter(LocalDateTime.parse(tempString, hurryTableDTF))) {
-                System.err.println("TASK ADDED");
                 hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
             }
         }
@@ -214,16 +213,15 @@ public class MainPageController extends MovableApplication {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                String str = dateTimeFormatter.format(LocalDateTime.now());
+                String str = clock.getText();
 
                 for (Map.Entry<String, Task> task : currentDayMapTask.entrySet()) {
-                    if (str.equals(task.getKey())) {
-                        System.err.println(task.getValue().getTaskName());
+                    if (str.equals(task.getKey() + ":00")) {
                         hurryObservableList.add(new Task(task.getValue().getId(), task.getValue().getTaskName(), task.getValue().getTaskText(), task.getValue().getDate(), task.getValue().getTime()));
                         hurryTaskTable.setItems(hurryObservableList);
                     }
                 }
             }
-        }, 0, 60000);
+        }, 0, 1000);
     }
 }
