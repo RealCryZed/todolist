@@ -116,27 +116,40 @@ public class MainPageController extends MovableApplication {
 
     @FXML
     void selectTask(MouseEvent event) {
-        try {
-            if (taskTable.getItems().size() != 0) {
-                taskPane.setVisible(true);
-                taskName.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskName());
-                taskText.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText());
-                taskDate.setText(taskTable.getSelectionModel().selectedItemProperty().get().getDate().format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) + ", "
-                        + taskTable.getSelectionModel().selectedItemProperty().get().getTime());
-            }
-        } catch (NullPointerException e) {
-            taskPane.setVisible(false);
-            System.err.println("Trying to select row with no value in it");
-        }
+//        try {
+//            if (taskTable.getItems().size() != 0) {
+//                taskPane.setVisible(true);
+//                taskName.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskName());
+//                taskText.setText(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText());
+//                taskDate.setText(taskTable.getSelectionModel().selectedItemProperty().get().getDate().format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) + ", "
+//                        + taskTable.getSelectionModel().selectedItemProperty().get().getTime());
+//            }
+//        } catch (NullPointerException e) {
+//            taskPane.setVisible(false);
+//            System.err.println("Trying to select row with no value in it");
+//        }
+        selectTask(taskTable);
+    }
+
+    @FXML
+    void selectHurryTask(MouseEvent event) {
+        selectTask(hurryTaskTable);
     }
 
     @FXML
     void editTask(ActionEvent event) {
-        if (!(taskTable.getSelectionModel().selectedItemProperty().get().getTaskText().equals(taskText.getText()))) {
+        TableView<Task> tableView;
+        if (taskTable.getSelectionModel().selectedItemProperty().get() != null) {
+            tableView = taskTable;
+        } else {
+            tableView = hurryTaskTable;
+        }
+
+        if (!(tableView.getSelectionModel().selectedItemProperty().get().getTaskText().equals(taskText.getText()))) {
             SessionFactory sessionFactory = SessionFactoryConfiguration.getSessionFactory();
             Session session = sessionFactory.openSession();
 
-            Task task = taskTable.getSelectionModel().selectedItemProperty().get();
+            Task task = tableView.getSelectionModel().selectedItemProperty().get();
             task.setTaskText(taskText.getText());
 
             session.beginTransaction();
@@ -151,7 +164,13 @@ public class MainPageController extends MovableApplication {
         SessionFactory sessionFactory = SessionFactoryConfiguration.getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        Task task = taskTable.getSelectionModel().selectedItemProperty().get();
+        Task task;
+
+        if (taskTable.getSelectionModel().selectedItemProperty().get() != null) {
+            task = taskTable.getSelectionModel().selectedItemProperty().get();
+        } else {
+            task = hurryTaskTable.getSelectionModel().selectedItemProperty().get();
+        }
 
         session.beginTransaction();
         session.delete(task);
@@ -182,6 +201,21 @@ public class MainPageController extends MovableApplication {
         }
 
         return observableList;
+    }
+
+    private void selectTask(TableView<Task> tableview) {
+        try {
+            if (tableview.getItems().size() != 0) {
+                taskPane.setVisible(true);
+                taskName.setText(tableview.getSelectionModel().selectedItemProperty().get().getTaskName());
+                taskText.setText(tableview.getSelectionModel().selectedItemProperty().get().getTaskText());
+                taskDate.setText(tableview.getSelectionModel().selectedItemProperty().get().getDate().format(DateTimeFormatter.ofPattern("dd.MM.YYYY")) + ", "
+                        + tableview.getSelectionModel().selectedItemProperty().get().getTime());
+            }
+        } catch (NullPointerException e) {
+            taskPane.setVisible(false);
+            System.err.println("Trying to select row with no value in it");
+        }
     }
 
     private ObservableList<Task> loadHurryTable() {

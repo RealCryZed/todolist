@@ -70,7 +70,7 @@
           <TableColumn fx:id="tableColumn" prefWidth="282.0" text="Ваши задачи" />
         </columns>
       </TableView>
-      <TableView fx:id="hurryTaskTable" layoutX="649.0" layoutY="23.0" prefHeight="118.0" prefWidth="202.0">
+      <TableView fx:id="hurryTaskTable" layoutX="649.0" layoutY="23.0" onMouseClicked="#selectHurryTask" prefHeight="118.0" prefWidth="202.0">
         <columns>
           <TableColumn fx:id="hurryTableColumn" prefWidth="199.0" text="Срочные задачи" />
         </columns>
